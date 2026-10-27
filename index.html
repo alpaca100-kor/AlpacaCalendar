@@ -374,6 +374,17 @@
     color: var(--card);
     font-size: 14px;
     letter-spacing: 0.2px;
+    cursor: pointer;
+  }
+  .grid-year .month-label.row-month-start:hover {
+    background: var(--stamp);
+    color: #FFFFFF;
+  }
+  .grid-year .month-label.row-month-start:focus-visible {
+    position: relative;
+    z-index: 2;
+    outline: 2px solid var(--stamp);
+    outline-offset: -3px;
   }
   .grid-year .day {
     aspect-ratio: auto;
@@ -818,7 +829,26 @@
       const labelCell = document.createElement('div');
       labelCell.className = 'month-label';
       labelCell.textContent = monthLabel;
-      if (monthLabel) labelCell.classList.add('row-month-start');
+      if (monthLabel) {
+        labelCell.classList.add('row-month-start');
+        labelCell.setAttribute('role', 'button');
+        labelCell.setAttribute('tabindex', '0');
+        labelCell.setAttribute('aria-label', `${year}년 ${monthLabel}월 월별 보기로 이동`);
+        labelCell.title = `${monthLabel}월 월별 보기로 이동`;
+
+        const openMonth = () => {
+          hideTip();
+          goToMonth(year, Number(monthLabel));
+          setView('month');
+        };
+        labelCell.addEventListener('click', openMonth);
+        labelCell.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openMonth();
+          }
+        });
+      }
       yearGrid.appendChild(labelCell);
 
       rowDates.forEach((dt, col) => {
