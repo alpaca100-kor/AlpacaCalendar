@@ -656,8 +656,8 @@
 
     .grid {
       margin: 0;
-      padding: 0;
-      gap: 0;
+      padding: 1px;
+      gap: 1px;
       border: 1px solid #999999;
       border-radius: 0;
       background: #999999;
@@ -754,7 +754,8 @@
     .grid-year .day {
       height: auto;
       min-height: 0;
-      padding: 0.3mm 0.5mm;
+      /* 연간 달력이 A4 세로 페이지의 아래쪽까지 차도록 날짜 행 높이를 늘립니다. */
+      padding: 1mm 0.5mm;
       align-items: flex-start;
       justify-content: flex-start;
       aspect-ratio: auto;
