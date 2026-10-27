@@ -502,6 +502,293 @@
     .day { animation: none; }
     * { transition: none !important; }
   }
+
+  /* 인쇄 및 PDF 저장 최적화 */
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  /* 연간 달력은 가로 방향으로 배치해 한 장에 더 많은 날짜를 표시합니다. */
+  @page annual-calendar {
+    size: A4 landscape;
+    margin: 7mm;
+  }
+
+  @media print {
+    :root {
+      --paper: #FFFFFF;
+      --card: #FFFFFF;
+      --ink: #111111;
+      --ink-soft: #444444;
+      --sun-red: #111111;
+      --sat-blue: #111111;
+      --stamp: #222222;
+      --grid-line: #999999;
+      --control-hover: #FFFFFF;
+      --today-bg: #E5E5E5;
+      --today-fg: #111111;
+      --rings-bg: #FFFFFF;
+      --rings-hole: #FFFFFF;
+      --shadow: none;
+      --sheet-border: none;
+      --overlay: transparent;
+    }
+
+    html,
+    body {
+      width: auto;
+      min-width: 0;
+      min-height: 0;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: #FFFFFF !important;
+      color: #111111 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      display: block;
+      font-family: 'IBM Plex Sans KR', sans-serif;
+    }
+
+    .app-wrap {
+      display: block;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      gap: 0;
+    }
+
+    /* 앱 로고, 탭, 조작 버튼, 도움말 등 화면 전용 요소는 출력하지 않습니다. */
+    .app-header,
+    .rings,
+    .top-bar,
+    .controls,
+    #themeBtn,
+    #helpBtn,
+    #holidayTip,
+    #helpDialog {
+      display: none !important;
+    }
+
+    .sheet {
+      width: 100%;
+      margin: 0;
+      overflow: visible;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      background: #FFFFFF;
+    }
+
+    /* 현재 선택한 보기만 출력하고 숨겨진 보기 패널은 제외합니다. */
+    .panel[hidden] {
+      display: none !important;
+    }
+
+    #monthPanel {
+      page: monthly-calendar;
+    }
+
+    #yearPanel {
+      page: annual-calendar;
+    }
+
+    @page monthly-calendar {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    .head {
+      padding: 0 0 5mm;
+      gap: 3mm;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .date-display {
+      gap: 3mm;
+      color: #111111;
+    }
+
+    .date-display .year {
+      font-size: 14pt;
+      color: #333333;
+    }
+
+    .date-display .month-num {
+      font-size: 28pt;
+      line-height: 1.1;
+      color: #111111;
+    }
+
+    .date-display .month-label {
+      font-size: 12pt;
+      color: #333333;
+    }
+
+    .weekdays,
+    .weekdays-year {
+      color: #222222;
+      background: #FFFFFF;
+    }
+
+    .weekdays {
+      padding: 0 0 2mm;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .weekdays span,
+    .weekdays-year span {
+      padding: 1mm 0;
+    }
+
+    .weekdays .sun,
+    .weekdays-year .sun,
+    .weekdays .sat,
+    .weekdays-year .sat {
+      color: #111111;
+    }
+
+    .grid {
+      margin: 0;
+      padding: 0;
+      gap: 0;
+      border: 1px solid #999999;
+      border-radius: 0;
+      background: #999999;
+      overflow: visible;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .day {
+      min-width: 0;
+      background: #FFFFFF;
+      color: #111111 !important;
+      aspect-ratio: 1 / 0.92;
+      animation: none !important;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .day.sun,
+    .day.sat,
+    .day.holiday,
+    .day.other,
+    .day.other.sun,
+    .day.other.sat,
+    .day.other.holiday {
+      color: #111111 !important;
+    }
+
+    .day.holiday {
+      font-weight: 700;
+    }
+
+    .day.other {
+      opacity: 0.45;
+    }
+
+    .day.today .num {
+      background: #E5E5E5;
+      color: #111111;
+      box-shadow: inset 0 0 0 1px #777777;
+    }
+
+    /* 연간 보기의 스크롤 영역 제한을 해제해 모든 월이 인쇄되게 합니다. */
+    .year-scroll {
+      margin: 0;
+      max-height: none;
+      overflow: visible;
+      border: none;
+      border-radius: 0;
+    }
+
+    .weekdays-year {
+      position: static;
+      top: auto;
+      z-index: auto;
+      grid-template-columns: 9mm repeat(7, minmax(0, 1fr));
+      padding: 0;
+      font-size: 7pt;
+    }
+
+    .weekdays-year span,
+    .weekdays-year span:first-child {
+      padding: 0.5mm 0;
+    }
+
+    .grid-year {
+      grid-template-columns: 9mm repeat(7, minmax(0, 1fr));
+      gap: 0;
+      padding: 0;
+      border: 1px solid #999999;
+      background: #999999;
+    }
+
+    .grid-year .month-label {
+      min-width: 0;
+      background: #FFFFFF;
+      color: #111111;
+      font-size: 6.5pt;
+      border-top: 1px solid #999999;
+    }
+
+    .grid-year .month-label.row-month-start {
+      background: #EAEAEA;
+      color: #111111;
+      font-size: 7pt;
+      letter-spacing: 0;
+      border-top: 1px solid #555555;
+    }
+
+    .grid-year .day {
+      height: auto;
+      min-height: 0;
+      padding: 0.15mm 0;
+      aspect-ratio: auto;
+      font-size: 6.5pt;
+      line-height: 1.1;
+      border-top: 1px solid #DDDDDD;
+    }
+
+    .grid-year .day .num {
+      width: auto;
+      height: auto;
+      border-radius: 0;
+    }
+
+    .grid-year .day.today .num {
+      background: #E5E5E5;
+      color: #111111;
+      box-shadow: none;
+      font-weight: 700;
+    }
+
+    .grid-year .day.holiday {
+      font-weight: 700;
+    }
+
+    .grid-year .day.other {
+      opacity: 0.35;
+    }
+
+    .grid-year .row-month-start {
+      border-top: 1px solid #555555;
+    }
+
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+      transition: none !important;
+    }
+  }
+
 </style>
 </head>
 <body>
