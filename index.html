@@ -509,9 +509,9 @@
     margin: 10mm;
   }
 
-  /* 연간 달력은 가로 방향으로 배치해 한 장에 더 많은 날짜를 표시합니다. */
+  /* 연간 달력도 A4 세로 방향을 기준으로 출력합니다. */
   @page annual-calendar {
-    size: A4 landscape;
+    size: A4 portrait;
     margin: 7mm;
   }
 
@@ -671,6 +671,10 @@
       background: #FFFFFF;
       color: #111111 !important;
       aspect-ratio: 1 / 0.92;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 1mm 1.2mm;
       animation: none !important;
       border: 0;
       border-radius: 0;
@@ -750,7 +754,9 @@
     .grid-year .day {
       height: auto;
       min-height: 0;
-      padding: 0.15mm 0;
+      padding: 0.3mm 0.5mm;
+      align-items: flex-start;
+      justify-content: flex-start;
       aspect-ratio: auto;
       font-size: 6.5pt;
       line-height: 1.1;
